@@ -1,54 +1,56 @@
-Library Management System (LMS)
+📚 Library Management System (LMS)
 A robust, console-based backend application developed in Java and MySQL to manage library operations, inventory, and student records with high data integrity.
 
 🛠️ Tech Stack
 Language: Java (JDK 25.0.1)
 
-Database: MySQL Server 8.0/9.0
+Database: MySQL Server
 
 Connectivity: JDBC (Java Database Connectivity) with MySQL Connector/J
 
-IDE: IntelliJ IDEA Community Edition
+Architecture: Modular N-Tier Design (Separation of Concerns)
 
 🚀 Key Features
 1. Role-Based Access Control (RBAC)
-   Admin Dashboard: Full privileges to add books, register students, and manage issuance/returns.
+   Admin Dashboard: Full privileges to add/view books, register students, and manage the issuance and return of inventory.
 
-Student Dashboard: Restricted access to view available inventory only.
+Student Dashboard: Secure, restricted access to view available book inventory only.
 
-2. Transactional Integrity
-   Atomic Updates: Simultaneously records book issuance in the transaction table while decrementing physical inventory.
+2. Transactional Integrity & Relational Logic
+   Atomic Updates: Simultaneously records book issuance in the transaction table while decrementing physical inventory in a single logical flow.
 
-Unique Identification: Uses Student Registration Numbers to map transactions to specific student records.
+Student Mapping: Uses unique Student Registration Numbers to map transactions to specific student records across 4 normalized tables.
 
-3. Security
-   SQL Injection Prevention: Utilizes PreparedStatements across all database operations to ensure secure data handling.
+History Tracking: Implements SQL JOINs to generate complete borrowing histories for students.
 
-Modular Design: Implements Separation of Concerns by decoupling database connection logic from business operations.
+3. Security & Best Practices
+   SQL Injection Prevention: Utilizes PreparedStatements (Parameterized Queries) across all database operations.
+
+Resource Management: Employs try-with-resources for automated connection handling to prevent memory leaks.
 
 📊 Database Schema
-The system is built on 4 normalized tables to eliminate data redundancy:
+The system utilizes a 4-table relational structure designed in 3rd Normal Form (3NF):
 
-books: Stores title, author, and available quantity.
+books: Tracks inventory (ID, Name, Author, Available Quantity).
 
-students: Stores name, unique registration number, email, and contact details.
+students: Stores registered member data (ID, Name, Reg No, Email, Contact).
 
-login: Manages authentication with usernames, passwords, and user types (ADMIN/STUDENT).
+login: Manages authentication (Username, Password, Role).
 
-booking_details: Tracks all transactions, linking students to books via Foreign Keys with borrow and return timestamps.
+booking_details: The transaction log linking Students and Books via Foreign Keys with borrow/return timestamps.
 
 💻 How to Run
-Database Setup: Import the SQL schema and seed the login table with an admin user.
+Setup Database: Execute the SQL schema in MySQL Workbench and seed the login table with an Admin user.
 
-Driver Configuration: Ensure the mysql-connector-j-x.x.x.jar is added to the project library.
+Configure Driver: Add the mysql-connector-j-9.5.0.jar to your project's external libraries.
 
-Connection: Update the credentials in DBConnection.java to match your local MySQL server.
+Update Credentials: Ensure DBConnection.java reflects your local MySQL username and password.
 
-Execution: Run the Main.java file and login with your credentials.
+Launch: Run Main.java and login with your credentials.
 
 🔮 Future Roadmap
-Automated Fine Calculation: Logic to detect overdue books and calculate penalties.
+Automated Fine Calculation: Logic to compare borrow and return dates for penalty assessment.
 
-Graphical User Interface (GUI): Transitioning to JavaFX for a professional desktop experience.
+JavaFX GUI: Transitioning from a CLI to a modern Graphical User Interface.
 
-Email API Integration: Automated notifications for book returns and account updates.
+Email API: Automated notification system for book return reminders.
